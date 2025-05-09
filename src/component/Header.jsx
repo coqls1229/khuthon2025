@@ -21,7 +21,8 @@ const Header = () => {
         </NavigatorContainer>
 
         <MyContainer>
-          <Write onClick={() => navigate("/newpost")}>내 비료 팔기</Write>
+          {/* /checkgrade에서 /newpost로 이동하기 때문에 /checkgrade 먼저! */}
+          <Write onClick={() => navigate("/checkgrade")}>내 비료 팔기</Write>
           <ImgContainer>
             <Img src={Search} alt="search" />
             <Img src={Likes} alt="likes" />
