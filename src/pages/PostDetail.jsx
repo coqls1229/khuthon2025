@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Header from "../component/header";
 import PostPhoto from "../assets/PostPhoto.png";
 import Khubaby from "../assets/khubaby.png";
 import Trust from "../assets/Trust.png";
 
 const PostDetail = () => {
+  const isMyPost = false;
+  const navigate = useNavigate();
   return (
     <>
       <Header />
@@ -86,8 +89,16 @@ const PostDetail = () => {
         </ContentBox>
       </Container>
       <ButtonContainer>
-        <Button>수정하기</Button>
-        <Button>삭제하기</Button>
+        {isMyPost ? (
+          <>
+            <Button variant="edit">수정하기</Button>
+            <Button variant="delete">삭제하기</Button>
+          </>
+        ) : (
+          <Button variant="buy" onClick={() => navigate("/post/purchase")}>
+            구매하기
+          </Button>
+        )}
       </ButtonContainer>
     </>
   );
@@ -264,7 +275,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 80px;
 `;
 
 const Button = styled.button`
@@ -272,12 +283,18 @@ const Button = styled.button`
   border-radius: 15px;
   font-size: 18px;
   margin-right: 15px;
+  font-weight: bold;
 
   background-color: ${(props) =>
-    props.children === "수정하기"
+    props.variant === "edit"
       ? "#F5F5F5"
-      : props.children === "삭제하기"
+      : props.variant === "delete"
       ? "#69675C"
-      : "#FFFFFF"};
-  color: ${(props) => (props.children === "수정하기" ? "#69675C" : "#F5F5F5")};
+      : "#F8F4D9"};
+  color: ${(props) =>
+    props.variant === "edit"
+      ? "#69675C"
+      : props.variant === "delete"
+      ? "#F5F5F5"
+      : "#69675C"};
 `;

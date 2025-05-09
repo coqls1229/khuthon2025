@@ -4,6 +4,7 @@ import Mainboard from "./pages/Mainboard";
 import NewPost from "./pages/NewPost";
 import PostDetail from "./pages/PostDetail";
 import Profile from "./pages/Profile";
+import Purchase from "./pages/Purchase";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/newpost" element={<NewPost />}></Route>
         <Route path="/post" element={<PostDetail />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/post/purchase" element={<Purchase />}></Route>
       </Routes>
     </BrowserRouter>
   );
