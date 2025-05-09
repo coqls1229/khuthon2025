@@ -121,7 +121,10 @@ const PostDetail = () => {
             <Button variant="delete">삭제하기</Button>
           </>
         ) : (
-          <Button variant="buy" onClick={() => navigate("/post/purchase")}>
+          <Button
+            variant="buy"
+            onClick={() => navigate("/post/purchase", { state: post })}
+          >
             구매하기
           </Button>
         )}

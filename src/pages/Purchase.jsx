@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+
 import styled from "styled-components";
 import Header from "../component/header";
 import PostPhoto from "../assets/PostPhoto.png";
 
 const Purchase = () => {
+  const { state } = useLocation(); // PostDetail 에서 넘긴 객체
+  const [item, setItem] = useState(state); // state 있으면 바로 사용
+
+  console.log("item:", item);
+
   return (
     <>
       <Header />
@@ -16,9 +23,9 @@ const Purchase = () => {
           <SectionTitle>구매 품목</SectionTitle>
 
           <ItemContainer>
-            <ItemImg src={PostPhoto} alt="post-photo" />
+            <ItemImg src={item.image_url} alt="post-photo" />
             <ItemInfo>
-              <ItemTitle>농민분들 항상 감사합니다</ItemTitle>
+              <ItemTitle>{item.title}</ItemTitle>
               <MetaRow>
                 <MetaLabel>발효 시작일</MetaLabel>
                 <MetaValue>25.04.28</MetaValue>
@@ -27,6 +34,11 @@ const Purchase = () => {
                 <MetaLabel>발효 완료일</MetaLabel>
                 <MetaValue>25.05.09</MetaValue>
               </MetaRow>
+              <Row>
+                <Badge>{item.grade}</Badge>
+                <Dot>·</Dot>
+                <Weight>{item.weight}</Weight>
+              </Row>
             </ItemInfo>
           </ItemContainer>
         </LeftContainer>
@@ -35,12 +47,12 @@ const Purchase = () => {
           <SummaryCol>
             <SummaryRow>
               <SummaryLabel>총 상품 금액</SummaryLabel>
-              <SummaryValue>13,000원</SummaryValue>
+              <SummaryValue>{item.price.toLocaleString()}</SummaryValue>
             </SummaryRow>
 
             <SubRow>
               <SubText>상품 1개</SubText>
-              <SubText>13,000원</SubText>
+              <SubText>{item.price.toLocaleString()}</SubText>
             </SubRow>
 
             <SummaryRow>
@@ -52,7 +64,7 @@ const Purchase = () => {
 
             <SummaryRow>
               <FinalLabel>최종 결제 금액</FinalLabel>
-              <FinalValue>13,000원</FinalValue>
+              <FinalValue>{item.price.toLocaleString()}</FinalValue>
             </SummaryRow>
 
             <PayButton>결제하기</PayButton>
@@ -201,4 +213,29 @@ const PayButton = styled.button`
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const Badge = styled.span`
+  background: #f0e9d8;
+  color: #6b5438;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const Dot = styled.span`
+  font-size: 14px;
+  color: #999;
+`;
+
+const Weight = styled.span`
+  font-size: 14px;
+  color: #666;
 `;
