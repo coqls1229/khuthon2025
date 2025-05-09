@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "../component/header";
 
 const NewPost = () => {
+  const [uploadedImage, setUploadedImage] = useState(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (
+      file &&
+      (file.type === "image/png" ||
+        file.type === "image/jpg" ||
+        file.type === "image/jpeg")
+    ) {
+      const imageUrl = URL.createObjectURL(file); // ✅ 브라우저에서 바로 URL 생성
+      setUploadedImage(imageUrl);
+    } else {
+      alert("png 또는 jpg 이미지만 업로드 가능합니다.");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -12,13 +29,26 @@ const NewPost = () => {
       <Container>
         <ContentBox>
           <LeftSection>
-            <ImageBox>사진 업로드</ImageBox>
+            <ImageLabel htmlFor="image-upload">
+              {uploadedImage ? (
+                <PreviewImage src={uploadedImage} alt="uploaded" />
+              ) : (
+                <UploadPlaceholder>사진 업로드</UploadPlaceholder>
+              )}
+            </ImageLabel>
+            <HiddenInput
+              id="image-upload"
+              type="file"
+              accept="image/png, image/jpeg"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
+            />
             <PriceInfo>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "500px",
+                  width: "450px",
                 }}
               >
                 <PriceText>38,000원</PriceText>
@@ -64,7 +94,7 @@ const Title = styled.h2`
 `;
 
 const Container = styled.div`
-  padding: 80px 50px 50px;
+  padding: 230px 50px 50px;
   width: 90vw;
   margin: 0 auto;
 `;
@@ -82,17 +112,32 @@ const LeftSection = styled.div`
   justify-content: center; // 세로 가운데 정렬
 `;
 
-const ImageBox = styled.div`
-  width: 500px;
-  height: 500px;
+const ImageLabel = styled.label`
+  width: 450px;
+  height: 450px;
   background-color: #f5f5f5;
+  border-radius: 10px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: underline;
+  overflow: hidden;
+`;
+
+const UploadPlaceholder = styled.div`
   font-size: 13px;
-  border-radius: 10px;
-  cursor: pointer;
+  text-decoration: underline;
+  color: #555;
+`;
+
+const PreviewImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 const PriceInfo = styled.div`
