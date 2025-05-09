@@ -59,6 +59,42 @@ const Purchase = () => {
           </SummaryCol>
         </TotalContainer>
       </Wrapper>
+      <PurchaseWrapper>
+        <PurchaseLeftContainer>
+          <PurchaseSectionTitle>배송 정보</PurchaseSectionTitle>
+          <ItemContainer>
+
+          <ShippingForm>
+            <FormGroup>
+              <Label>이름</Label>
+              <SmallInput type="text" placeholder="" />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>배송주소</Label>
+              <InputRow>
+                <Input type="text" placeholder="" style={{ width: "200px" }} />
+                <FindZipButton>우편번호 찾기</FindZipButton>
+              </InputRow>
+              <Input type="text" placeholder="" />
+              <Input type="text" placeholder="" />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>휴대폰</Label>
+              <InputRow>
+                <Input type="text" placeholder="" style={{ width: "120px" }} />
+                <span>-</span>
+                <Input type="text" placeholder="" style={{ width: "120px" }} />
+                <span>-</span>
+                <Input type="text" placeholder="" style={{ width: "120px" }} />
+              </InputRow>
+            </FormGroup>
+          </ShippingForm>
+          </ItemContainer>
+        </PurchaseLeftContainer>
+      </PurchaseWrapper>
+        
     </>
   );
 };
@@ -82,7 +118,7 @@ const Wrapper = styled.div`
   display: flex;
   gap: 60px;
   margin: 150px 0 0; /* 위 여백만 유지 */
-  padding: 0 70px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
+  padding: 0 140px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
   width: 1500px;
   box-sizing: border-box; /* 패딩 포함해서 폭 계산 */
 `;
@@ -103,7 +139,7 @@ const ItemContainer = styled.div`
   display: flex;
   gap: 20px;
   padding: 20px 0;
-  border-top: 1px solid rgb(251, 42, 42);
+  border-top: 1px solid rgb(255, 83, 83);
 `;
 
 const ItemImg = styled.img`
@@ -201,4 +237,73 @@ const PayButton = styled.button`
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+`;
+
+const PurchaseWrapper = styled.div`
+  display: flex;
+  gap: 60px;
+  margin: 0; /* 위 여백도 없앰 */
+  padding: 0 140px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
+  width: 1500px;
+  box-sizing: border-box; /* 패딩 포함해서 폭 계산 */
+`;
+
+const PurchaseLeftContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 700px; /* ← 폭 제한해서 중앙 쪽으로 */
+  flex: 1;
+`;
+
+const PurchaseSectionTitle = styled.h2`
+  margin: 0 0 20px 0;
+  font-size: 22px;
+`;
+
+const ShippingForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80%;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const Input = styled.input`
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+`;
+
+const SmallInput = styled.input`
+  width: 150px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+`;
+
+const InputRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const FindZipButton = styled.button`
+  padding: 12px 14px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 `;
