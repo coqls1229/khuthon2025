@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "../component/header";
 import Sidebar from "../component/Sidebar";
-import PostPhoto from "../assets/PostPhoto.png";
 import { useNavigate } from "react-router-dom";
 
 const Mainboard = () => {

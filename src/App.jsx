@@ -15,11 +15,12 @@ const App = () => {
         <Route path="/" element={<Mainboard />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/newpost" element={<NewPost />}></Route>
-        <Route path="/post" element={<PostDetail />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/checkgrade" element={<CheckGrade />}></Route>
-
-        <Route path="/post/purchase" element={<Purchase />}></Route>
+        <Route path="/post">
+          <Route path="purchase" element={<Purchase />} />
+          <Route path=":id" element={<PostDetail />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
