@@ -48,7 +48,7 @@ const NewPost = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "450px",
+                  width: "400px",
                 }}
               >
                 <PriceText>38,000원</PriceText>
@@ -113,8 +113,8 @@ const LeftSection = styled.div`
 `;
 
 const ImageLabel = styled.label`
-  width: 450px;
-  height: 450px;
+  width: 400px;
+  height: 400px;
   background-color: #f5f5f5;
   border-radius: 10px;
   cursor: pointer;
