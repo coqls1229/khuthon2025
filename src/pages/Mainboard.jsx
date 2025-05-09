@@ -13,6 +13,9 @@ const Mainboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [gradeFilter, setGradeFilter] = useState([]); // ["A","B",…]
+  const [priceFilter, setPriceFilter] = useState(""); // "나눔" | 5000 | ...
+
   /** 첫 렌더링 때 서버 호출 */
   useEffect(() => {
     const API_BASE = "http://34.64.57.155:5500/api";
@@ -71,15 +74,33 @@ const Mainboard = () => {
   if (loading) return <FullMsg>불러오는 중...</FullMsg>;
   if (error) return <FullMsg>{error}</FullMsg>;
 
+  const filtered = posts.filter((p) => {
+    /* 등급 */
+    if (gradeFilter.length && !gradeFilter.includes(p.grade[0])) return false;
+
+    /* 가격 */
+    const priceNum = Number(p.price.replaceAll(",", "").replace("원", ""));
+    if (priceFilter === "나눔" && priceNum !== 0) return false;
+    if (typeof priceFilter === "number" && priceNum > priceFilter) return false;
+
+    return true;
+  });
+
   return (
     <>
       <Header />
 
       <ContentRow>
-        <Sidebar />
+        {/* ★ Sidebar에 props로 넘기기 */}
+        <Sidebar
+          gradeFilter={gradeFilter}
+          priceFilter={priceFilter}
+          onGradeChange={setGradeFilter}
+          onPriceChange={setPriceFilter}
+        />
         <div style={{ marginTop: "100px", width: "99vw", marginRight: "50px" }}>
           <Grid>
-            {posts.map((post) => (
+            {filtered.map((post) => (
               <Post
                 key={post.post_id}
                 onClick={() =>
