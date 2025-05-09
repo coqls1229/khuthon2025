@@ -101,7 +101,7 @@ const SubFrame = styled.div`
 `;
 
 const Title = styled.p`
-  font-size: 21px;
+  font-size: 25px;
   font-weight: bold;
 `;
 

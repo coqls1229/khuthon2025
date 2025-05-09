@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Mainboard from "./pages/Mainboard";
-import NewPost from "./pages/NewPost";
+import NewPost from "./pages/New";
 
 const App = () => {
   return (

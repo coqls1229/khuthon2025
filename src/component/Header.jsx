@@ -10,7 +10,7 @@ const Header = () => {
       <MainFrame>
         <Title>잔반</Title>
         <NavigatorContainer>
-          <Navigator>비료 거래</Navigator>
+          <Navigator onClick={() => navigate("/")}>비료 거래</Navigator>
           <Navigator>발효 등급표</Navigator>
           <Navigator>비료 만들기</Navigator>
           <Navigator>발효 꿀팁</Navigator>
