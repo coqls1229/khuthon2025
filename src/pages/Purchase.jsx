@@ -164,7 +164,7 @@ const ItemContainer = styled.div`
   display: flex;
   gap: 20px;
   padding: 20px 0;
-  border-top: 1px solid rgb(255, 83, 83);
+  border-top: 1.2px solid #F2F2F2;
 `;
 
 const ItemImg = styled.img`
