@@ -6,8 +6,10 @@ const NewPost = () => {
   return (
     <>
       <Header />
-      <Container>
+      <Frame>
         <Title>게시글 작성하기</Title>
+      </Frame>
+      <Container>
         <ContentBox>
           <LeftSection>
             <ImageBox>사진 업로드</ImageBox>
@@ -16,7 +18,7 @@ const NewPost = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "450px",
+                  width: "500px",
                 }}
               >
                 <PriceText>38,000원</PriceText>
@@ -48,16 +50,23 @@ const NewPost = () => {
 
 export default NewPost;
 
-const Container = styled.div`
-  padding: 120px 50px 50px;
-  width: 90vw;
-  margin: 0 auto;
+const Frame = styled.div`
+  position: fixed;
+  top: 140px; /* header 아래 공간 확보 */
+  padding-left: 70px;
+  width: 420px;
+  z-index: 10;
 `;
 
 const Title = styled.h2`
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 40px;
+`;
+
+const Container = styled.div`
+  padding: 80px 50px 50px;
+  width: 90vw;
+  margin: 0 auto;
 `;
 
 const ContentBox = styled.div`
@@ -74,8 +83,8 @@ const LeftSection = styled.div`
 `;
 
 const ImageBox = styled.div`
-  width: 450px;
-  height: 450px;
+  width: 500px;
+  height: 500px;
   background-color: #f5f5f5;
   display: flex;
   align-items: center;
@@ -134,7 +143,8 @@ const Input = styled.input`
 
 const Textarea = styled.textarea`
   font-size: 16px;
-  padding: 30px 12px 20px 0px;
+  font-family: Pretendard;
+  padding: 30px 12px 20px 5px;
   border: none;
   border-top: 1px solid #e4e4e4;
   height: 100px;
