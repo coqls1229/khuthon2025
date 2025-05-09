@@ -4,63 +4,87 @@ import styled from "styled-components";
 const Sidebar = () => {
   const grade = ["A", "B", "C", "F"];
   const price = ["나눔", 5000, 10000, 20000];
-  const [selectedGrade, setSelectedGrade] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState("");
 
   const handlePriceClick = (value) => {
     setSelectedPrice(value === selectedPrice ? "" : value);
   };
 
-  return (
-    <>
-      <SubFrame>
-        <div style={{ marginTop: "50px" }}>
-          <Title>현재 판매 중인 비료</Title>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Sub>등급</Sub>
-            <p
-              style={{
-                marginRight: "40px",
-                fontSize: "12px",
-                color: "#CCCCCC",
-                textDecoration: "underline",
-              }}
-            >
-              초기화
-            </p>
-          </div>
+  const handleGradeChange = (value) => {
+    if (selectedGrade.includes(value)) {
+      setSelectedGrade(selectedGrade.filter((g) => g !== value));
+    } else {
+      setSelectedGrade([...selectedGrade, value]);
+    }
+  };
 
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {grade.map((g, index) => (
-              <label key={index}>
-                <CustomInput type="checkbox" value={g} />
-                {g} 등급 보기
-              </label>
-            ))}
-          </div>
+  const handleReset = () => {
+    setSelectedGrade([]);
+    setSelectedPrice("");
+  };
+
+  return (
+    <SubFrame>
+      <div style={{ marginTop: "50px" }}>
+        <Title>현재 판매 중인 비료</Title>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Sub>등급</Sub>
+          <p
+            style={{
+              marginRight: "40px",
+              fontSize: "12px",
+              color: "#CCCCCC",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+            onClick={handleReset}
+          >
+            초기화
+          </p>
         </div>
-        <div style={{ marginTop: "50px" }}>
-          <Sub>가격</Sub>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {price.map((p) => (
-              <CustomButton
-                key={p}
-                $selected={selectedPrice === p}
-                onClick={() => handlePriceClick(p)}
-              >
-                {typeof p === "string" ? p : `${p}원 이하`}
-              </CustomButton>
-            ))}
-          </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {grade.map((g, index) => (
+            <label key={index}>
+              <CustomInput
+                type="checkbox"
+                value={g}
+                checked={selectedGrade.includes(g)}
+                onChange={() => handleGradeChange(g)}
+              />
+              {g} 등급 보기
+            </label>
+          ))}
         </div>
-      </SubFrame>
-    </>
+      </div>
+      <div style={{ marginTop: "50px" }}>
+        <Sub>가격</Sub>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          {price.map((p) => (
+            <CustomButton
+              key={p}
+              $selected={selectedPrice === p}
+              onClick={() => handlePriceClick(p)}
+            >
+              {typeof p === "string" ? p : `${p}원 이하`}
+            </CustomButton>
+          ))}
+        </div>
+      </div>
+    </SubFrame>
   );
 };
 
@@ -92,11 +116,11 @@ const CustomInput = styled.input`
 `;
 
 const CustomButton = styled.button`
-  border: 1px solid #ededed;
+  border: ${({ $selected }) => ($selected ? "none" : "1px solid #ededed")};
   outline: none;
-  padding: 5px 0px;
-  margin: 5px;
-  width: 50%;
+  padding: 7px 18px;
+  margin: 8px;
+  width: auto;
   border-radius: 20px;
   background-color: ${({ $selected }) => ($selected ? "#E8E8E8" : "#FFFFFF")};
   cursor: pointer;
