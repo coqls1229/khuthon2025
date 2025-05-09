@@ -75,38 +75,52 @@ const Purchase = () => {
         <PurchaseLeftContainer>
           <PurchaseSectionTitle>배송 정보</PurchaseSectionTitle>
           <ItemContainer>
+            <ShippingForm>
+              <FormGroup>
+                <Label>이름</Label>
+                <SmallInput type="text" placeholder="" />
+              </FormGroup>
 
-          <ShippingForm>
-            <FormGroup>
-              <Label>이름</Label>
-              <SmallInput type="text" placeholder="" />
-            </FormGroup>
+              <FormGroup>
+                <Label>배송주소</Label>
+                <InputRow>
+                  <Input
+                    type="text"
+                    placeholder=""
+                    style={{ width: "200px" }}
+                  />
+                  <FindZipButton>우편번호 찾기</FindZipButton>
+                </InputRow>
+                <Input type="text" placeholder="" />
+                <Input type="text" placeholder="" />
+              </FormGroup>
 
-            <FormGroup>
-              <Label>배송주소</Label>
-              <InputRow>
-                <Input type="text" placeholder="" style={{ width: "200px" }} />
-                <FindZipButton>우편번호 찾기</FindZipButton>
-              </InputRow>
-              <Input type="text" placeholder="" />
-              <Input type="text" placeholder="" />
-            </FormGroup>
-
-            <FormGroup>
-              <Label>휴대폰</Label>
-              <InputRow>
-                <Input type="text" placeholder="" style={{ width: "120px" }} />
-                <span>-</span>
-                <Input type="text" placeholder="" style={{ width: "120px" }} />
-                <span>-</span>
-                <Input type="text" placeholder="" style={{ width: "120px" }} />
-              </InputRow>
-            </FormGroup>
-          </ShippingForm>
+              <FormGroup>
+                <Label>휴대폰</Label>
+                <InputRow>
+                  <Input
+                    type="text"
+                    placeholder=""
+                    style={{ width: "120px" }}
+                  />
+                  <span>-</span>
+                  <Input
+                    type="text"
+                    placeholder=""
+                    style={{ width: "120px" }}
+                  />
+                  <span>-</span>
+                  <Input
+                    type="text"
+                    placeholder=""
+                    style={{ width: "120px" }}
+                  />
+                </InputRow>
+              </FormGroup>
+            </ShippingForm>
           </ItemContainer>
         </PurchaseLeftContainer>
       </PurchaseWrapper>
-        
     </>
   );
 };
@@ -129,8 +143,8 @@ const Title = styled.h2`
 const Wrapper = styled.div`
   display: flex;
   gap: 60px;
-  margin: 150px 0 0; /* 위 여백만 유지 */
-  padding: 0 140px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
+  margin: 150px 0 0 110px; /* 위 여백만 유지 */
+  padding: 0 200px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
   width: 1500px;
   box-sizing: border-box; /* 패딩 포함해서 폭 계산 */
 `;
@@ -140,6 +154,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
   max-width: 700px; /* ← 폭 제한해서 중앙 쪽으로 */
   flex: 1;
+  margin-top: 80px;
 `;
 
 const SectionTitle = styled.h2`
@@ -173,6 +188,31 @@ const ItemTitle = styled.h3`
   font-weight: 700;
 `;
 
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const Badge = styled.span`
+  background: #f0e9d8;
+  color: #6b5438;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const Dot = styled.span`
+  font-size: 14px;
+  color: #999;
+`;
+
+const Weight = styled.span`
+  font-size: 14px;
+  color: #666;
+`;
+
 const MetaRow = styled.div`
   display: flex;
   gap: 10px;
@@ -190,6 +230,7 @@ const MetaValue = styled.span`
 
 const TotalContainer = styled.div`
   width: 300px;
+  margin-top: 100px;
 `;
 
 const SummaryCol = styled.div`
@@ -251,12 +292,11 @@ const PayButton = styled.button`
   cursor: pointer;
 `;
 
-
 const PurchaseWrapper = styled.div`
   display: flex;
   gap: 60px;
-  margin: 0; /* 위 여백도 없앰 */
-  padding: 0 140px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
+  margin: 0 0 0 110px; /* 위 여백도 없앰 */
+  padding: 0 200px; /* ← 왼쪽(오른쪽) 여백 맞추기 */
   width: 1500px;
   box-sizing: border-box; /* 패딩 포함해서 폭 계산 */
 `;
@@ -266,6 +306,7 @@ const PurchaseLeftContainer = styled.div`
   flex-direction: column;
   max-width: 700px; /* ← 폭 제한해서 중앙 쪽으로 */
   flex: 1;
+  margin-top: 20px;
 `;
 
 const PurchaseSectionTitle = styled.h2`
