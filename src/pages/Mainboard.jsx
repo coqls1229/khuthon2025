@@ -1,75 +1,112 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Header from "../component/header";
 import Sidebar from "../component/Sidebar";
-import PostPhoto from "../assets/PostPhoto.png";
 import { useNavigate } from "react-router-dom";
 
 const Mainboard = () => {
   const navigate = useNavigate();
 
-  // 샘플 더미 데이터
-  const posts = [
-    {
-      post_id: 1,
-      image_url: PostPhoto,
-      title: "급식서에서 나온 비료입니다.",
-      price: "10,000원",
-      weight: "320g",
-      grade: "A 등급",
-    },
-    {
-      post_id: 2,
-      image_url: PostPhoto,
-      title: "레전드 맛집 비료 못참지 ㅋㅋ",
-      price: "2,000원",
-      weight: "50g",
-      grade: "C 등급",
-    },
-    {
-      post_id: 3,
-      image_url: PostPhoto,
-      title: "이거 먹고 쑥쑥 자랐습니다",
-      price: "18,000원",
-      weight: "400g",
-      grade: "A 등급",
-    },
-    {
-      post_id: 4,
-      image_url: PostPhoto,
-      title: "이거 먹고 쑥쑥 자랐습니다",
-      price: "18,000원",
-      weight: "400g",
-      grade: "A 등급",
-    },
-    {
-      post_id: 5,
-      image_url: PostPhoto,
-      title: "이거 먹고 쑥쑥 자랐습니다",
-      price: "18,000원",
-      weight: "400g",
-      grade: "A 등급",
-    },
-    {
-      post_id: 6,
-      image_url: PostPhoto,
-      title: "이거 먹고 쑥쑥 자랐습니다",
-      price: "18,000원",
-      weight: "400g",
-      grade: "A 등급",
-    },
-  ];
+  /* 서버에서 받아온 데이터를 저장할 상태 */
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [gradeFilter, setGradeFilter] = useState([]); // ["A","B",…]
+  const [priceFilter, setPriceFilter] = useState(""); // "나눔" | 5000 | ...
+
+  /** 첫 렌더링 때 서버 호출 */
+  useEffect(() => {
+    const API_BASE = "http://34.64.57.155:5500/api";
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        /* 1️⃣ 게시글 목록 가져오기 */
+        const postRes = await axios.get(`${API_BASE}/posts`);
+        const postData = postRes.data.data; // [{ postId, fertId, ... }]
+
+        /* 2️⃣ 중복 없이 fertId 모으기 */
+        const fertIds = [...new Set(postData.map((p) => p.fertId))];
+
+        /* 3️⃣ fertId 별로 병렬 호출 */
+        const fertPromises = fertIds.map((id) =>
+          axios.get(`${API_BASE}/fertilizers/${id}`)
+        );
+        const fertResults = await Promise.allSettled(fertPromises);
+
+        /* 4️⃣ fertId → 비료정보 매핑 테이블 만들기 */
+        const fertMap = {};
+        fertResults.forEach((res) => {
+          if (res.status === "fulfilled") {
+            const f = res.value.data.data;
+            fertMap[f.fertId] = f; // { price, weightKg, grade }
+          }
+        });
+
+        /* 5️⃣ 카드에 쓸 데이터 가공 */
+        const merged = postData.map((p) => {
+          const f = fertMap[p.fertId] || {};
+          return {
+            post_id: p.postId,
+            image_url: p.imageUrl,
+            title: p.title,
+            price: f.price ? `${f.price.toLocaleString()}원` : "가격 정보 없음",
+            weight: f.weightKg ? `${f.weightKg}kg` : "",
+            grade: f.grade ? `${f.grade} 등급` : "",
+          };
+        });
+
+        setPosts(merged);
+      } catch (e) {
+        console.error(e);
+        setError("데이터를 불러오지 못했어 🥲");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  /* 로딩·에러 처리 */
+  if (loading) return <FullMsg>불러오는 중...</FullMsg>;
+  if (error) return <FullMsg>{error}</FullMsg>;
+
+  const filtered = posts.filter((p) => {
+    /* 등급 */
+    if (gradeFilter.length && !gradeFilter.includes(p.grade[0])) return false;
+
+    /* 가격 */
+    const priceNum = Number(p.price.replaceAll(",", "").replace("원", ""));
+    if (priceFilter === "나눔" && priceNum !== 0) return false;
+    if (typeof priceFilter === "number" && priceNum > priceFilter) return false;
+
+    return true;
+  });
 
   return (
     <>
       <Header />
 
       <ContentRow>
-        <Sidebar />
+        {/* ★ Sidebar에 props로 넘기기 */}
+        <Sidebar
+          gradeFilter={gradeFilter}
+          priceFilter={priceFilter}
+          onGradeChange={setGradeFilter}
+          onPriceChange={setPriceFilter}
+        />
         <div style={{ marginTop: "100px", width: "99vw", marginRight: "50px" }}>
           <Grid>
-            {posts.map((post) => (
-              <Post key={post.post_id} onClick={() => navigate("/post")}>
+            {filtered.map((post) => (
+              <Post
+                key={post.post_id}
+                onClick={() =>
+                  navigate(`/post/${post.post_id}`, { state: post })
+                } // ← 포스트 객체 통째로 전달
+              >
                 <CustomImage src={post.image_url} alt={post.title} />
                 <p
                   style={{
@@ -109,6 +146,11 @@ const Mainboard = () => {
 };
 
 export default Mainboard;
+
+const FullMsg = styled.p`
+  margin-top: 120px;
+  text-align: center;
+`;
 
 const ContentRow = styled.div`
   display: flex;

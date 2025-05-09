@@ -1,14 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Header from "../component/header";
 import PostPhoto from "../assets/PostPhoto.png";
 import Khubaby from "../assets/khubaby.png";
 import Trust from "../assets/Trust.png";
 
+const API_BASE = "http://34.64.57.155:5500/api";
+
 const PostDetail = () => {
-  const isMyPost = false;
   const navigate = useNavigate();
+  const { id } = useParams(); // /post/:id
+  const { state } = useLocation(); // Mainboard 에서 넘긴 객체
+  const [post, setPost] = useState(state); // state 가 있으면 그대로 쓰기
+
+  /* state 가 없을 때만 서버 재호출 */
+  useEffect(() => {
+    if (post) return; // 이미 있으면 skip
+
+    const fetchDetail = async () => {
+      try {
+        // 1) 글 정보
+        const resPost = await axios.get(`${API_BASE}/posts/${id}`);
+        const p = resPost.data.data; // { postId, fertId, ... }
+
+        // 2) 비료 정보
+        const resFert = await axios.get(`${API_BASE}/fertilizers/${p.fertId}`);
+        const f = resFert.data.data; // { price, weightKg, grade }
+
+        // 3) 합치기
+        setPost({
+          ...p,
+          price: f.price,
+          weight: f.weightKg,
+          grade: f.grade,
+        });
+      } catch (e) {
+        console.error(e);
+        setError("게시글을 불러오지 못했어 🥲");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetail();
+  }, [id, post]);
+
+  // 로그인 사용자 비교 로직으로 변경해야 함.
+  const isMyPost = false;
+
   return (
     <>
       <Header />
@@ -18,7 +58,8 @@ const PostDetail = () => {
       <Container>
         <ContentBox>
           <LeftSection>
-            <PostImg src={PostPhoto} alt="post-photo" />
+            <PostImg src={post.image_url} alt={post.title} />
+
             {/* 프로필 + 신뢰도 영역 */}
             <InfoBox>
               <Avatar src={Khubaby} alt="경희베이비" />
@@ -37,17 +78,17 @@ const PostDetail = () => {
           {/* 포스트 글과 정보 디스플레이 하는 영역 */}
           <RightSection>
             {/* 상단 제목 */}
-            <PostTitle>농민분들 항상 감사합니다</PostTitle>
+            <PostTitle>{post.title}</PostTitle>
 
             {/* 태그·중량 & 가격 */}
             <RowSpaceBetween>
               <div>
                 <Row>
-                  <Badge>A 등급</Badge>
+                  <Badge>{post.grade}</Badge>
                   <Dot>·</Dot>
-                  <Weight>280g</Weight>
+                  <Weight>{post.weight}</Weight>
                 </Row>
-                <Price>13,000원</Price>
+                <Price>{post.price.toLocaleString()}</Price>
               </div>
 
               {/* 발효 날짜 */}
@@ -64,27 +105,12 @@ const PostDetail = () => {
             </RowSpaceBetween>
 
             {/* 본문 설명 */}
-            <Description>
-              안녕하세요 :) <br />
-              경희대학교 학생식당입니다~
-              <br />
-              <br />
-              매일같이 학생들이 맛있게 먹고 가는 식판들, 그 뒤엔 항상 남겨지는
-              음식물들이 있었어요. 처음엔 그냥 버려지는 것이 아깝다고만
-              생각했는데, 문득 이런 생각이 들더라고요. “이걸 그냥 버리지 말고,
-              더 좋은 무언가로 바꿔보면 어떨까?”
-              <br />
-              <br />
-              그렇게 시작된 작은 실험!
-              <br />
-              학생들이 남긴 잔반을 모아, 자연에 부담을 덜 주는 방식으로 천천히,
-              정성껏 발효시키고 숙성시켜 보았어요. 냄새도 잡고, 영양도 살리고,
-              토양에도 좋은 친환경 퇴비로 다시 태어나니까요. 시간이 오래
-              걸렸지만 정말 뿌듯하고 기쁜 마음입니다. 😊
-            </Description>
+            <Description>{post.description}</Description>
 
             {/* 작성 날짜 */}
-            <PostedDate>2025년 05월 09일</PostedDate>
+            <PostedDate>
+              {new Date(post.createdAt).toLocaleDateString("ko-KR")}
+            </PostedDate>
           </RightSection>
         </ContentBox>
       </Container>
@@ -95,7 +121,10 @@ const PostDetail = () => {
             <Button variant="delete">삭제하기</Button>
           </>
         ) : (
-          <Button variant="buy" onClick={() => navigate("/post/purchase")}>
+          <Button
+            variant="buy"
+            onClick={() => navigate("/post/purchase", { state: post })}
+          >
             구매하기
           </Button>
         )}

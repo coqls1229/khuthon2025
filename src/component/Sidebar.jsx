@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Sidebar = () => {
+const Sidebar = ({
+  gradeFilter,
+  priceFilter,
+  onGradeChange,
+  onPriceChange,
+}) => {
   const grade = ["A", "B", "C", "F"];
   const price = ["나눔", 5000, 10000, 20000];
-  const [selectedGrade, setSelectedGrade] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState("");
 
   const handlePriceClick = (value) => {
-    setSelectedPrice(value === selectedPrice ? "" : value);
+    onPriceChange(value === priceFilter ? "" : value);
   };
 
   const handleGradeChange = (value) => {
-    if (selectedGrade.includes(value)) {
-      setSelectedGrade(selectedGrade.filter((g) => g !== value));
+    if (gradeFilter.includes(value)) {
+      onGradeChange(gradeFilter.filter((g) => g !== value));
     } else {
-      setSelectedGrade([...selectedGrade, value]);
+      onGradeChange([...gradeFilter, value]);
     }
   };
 
   const handleReset = () => {
-    setSelectedGrade([]);
-    setSelectedPrice("");
+    onGradeChange([]);
+    onPriceChange("");
   };
 
   return (
@@ -51,12 +54,12 @@ const Sidebar = () => {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {grade.map((g, index) => (
-            <label key={index}>
+          {grade.map((g) => (
+            <label key={g}>
               <CustomInput
                 type="checkbox"
                 value={g}
-                checked={selectedGrade.includes(g)}
+                checked={gradeFilter.includes(g)}
                 onChange={() => handleGradeChange(g)}
               />
               {g} 등급 보기
@@ -76,7 +79,7 @@ const Sidebar = () => {
           {price.map((p) => (
             <CustomButton
               key={p}
-              $selected={selectedPrice === p}
+              $selected={priceFilter === p}
               onClick={() => handlePriceClick(p)}
             >
               {typeof p === "string" ? p : `${p}원 이하`}
