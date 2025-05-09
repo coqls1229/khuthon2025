@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import ServiceName from "../assets/ServiceName.png";
+import Profile from "../assets/Profile.png";
+import Search from "../assets/Search.png";
+import Likes from "../assets/Likes.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -8,7 +12,7 @@ const Header = () => {
   return (
     <>
       <MainFrame>
-        <Title>잔반</Title>
+        <Title src={ServiceName} alt="잔반걸음" onClick={() => navigate("/")} />
         <NavigatorContainer>
           <Navigator onClick={() => navigate("/")}>비료 거래</Navigator>
           <Navigator>발효 등급표</Navigator>
@@ -16,7 +20,14 @@ const Header = () => {
           <Navigator>발효 꿀팁</Navigator>
         </NavigatorContainer>
 
-        <Write onClick={() => navigate("/newpost")}>내 비료 팔기</Write>
+        <MyContainer>
+          <Write onClick={() => navigate("/newpost")}>내 비료 팔기</Write>
+          <ImgContainer>
+            <Img src={Search} alt="search" />
+            <Img src={Likes} alt="likes" />
+            <Img src={Profile} alt="profile" />
+          </ImgContainer>
+        </MyContainer>
       </MainFrame>
     </>
   );
@@ -37,10 +48,9 @@ const MainFrame = styled.div`
   z-index: 1000; /* Header는 가장 위에 와야함 */
 `;
 
-const Title = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  margin-left: 50px;
+const Title = styled.img`
+  width: 200px;
+  margin-left: 20px;
 `;
 
 const NavigatorContainer = styled.div`
@@ -57,6 +67,12 @@ const Navigator = styled.div`
   padding: 10px 0; /* 텍스트 위아래 여백 확보 */
 `;
 
+const MyContainer = styled.div`
+  margin: 0;
+  display: flex;
+  align-items: center;
+`;
+
 const Write = styled.button`
   border: none;
   outline: none;
@@ -66,4 +82,15 @@ const Write = styled.button`
   padding: 0px 16px;
   font-weight: bold;
   font-size: 14px;
+  margin-right: 30px;
+`;
+
+const ImgContainer = styled.div`
+  margin: 0 40px 0 0; // top right bottom left
+  display: flex;
+  align-items: center;
+`;
+
+const Img = styled.img`
+  width: 50px;
 `;

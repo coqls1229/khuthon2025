@@ -93,9 +93,9 @@ export default Sidebar;
 const SubFrame = styled.div`
   position: relative;
   top: 0;
-  padding-left: 50px;
+  padding-left: 70px;
   height: 120vh;
-  width: 380px;
+  width: 420px;
   overflow-y: auto;
   border-right: 1px solid #e8e8e8;
 `;

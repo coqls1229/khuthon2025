@@ -63,7 +63,7 @@ const Mainboard = () => {
 
       <ContentRow>
         <Sidebar />
-        <div style={{ marginTop: "100px", width: "99vw" }}>
+        <div style={{ marginTop: "100px", width: "99vw", marginRight: "50px" }}>
           <Grid>
             {posts.map((post) => (
               <Post key={post.post_id}>
