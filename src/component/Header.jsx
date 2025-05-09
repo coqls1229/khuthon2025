@@ -25,7 +25,11 @@ const Header = () => {
           <ImgContainer>
             <Img src={Search} alt="search" />
             <Img src={Likes} alt="likes" />
-            <Img src={Profile} alt="profile" />
+            <Img
+              src={Profile}
+              alt="profile"
+              onClick={() => navigate("/profile")}
+            />
           </ImgContainer>
         </MyContainer>
       </MainFrame>
@@ -93,4 +97,5 @@ const ImgContainer = styled.div`
 
 const Img = styled.img`
   width: 50px;
+  cursor: pointer;
 `;

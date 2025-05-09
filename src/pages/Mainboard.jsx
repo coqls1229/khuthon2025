@@ -3,8 +3,11 @@ import styled from "styled-components";
 import Header from "../component/header";
 import Sidebar from "../component/Sidebar";
 import PostPhoto from "../assets/PostPhoto.png";
+import { useNavigate } from "react-router-dom";
 
 const Mainboard = () => {
+  const navigate = useNavigate();
+
   // 샘플 더미 데이터
   const posts = [
     {
@@ -66,7 +69,7 @@ const Mainboard = () => {
         <div style={{ marginTop: "100px", width: "99vw", marginRight: "50px" }}>
           <Grid>
             {posts.map((post) => (
-              <Post key={post.post_id}>
+              <Post key={post.post_id} onClick={() => navigate("/post")}>
                 <CustomImage src={post.image_url} alt={post.title} />
                 <p
                   style={{
