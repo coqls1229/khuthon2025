@@ -68,12 +68,18 @@ const Mainboard = () => {
             {posts.map((post) => (
               <Post key={post.post_id}>
                 <CustomImage src={post.image_url} alt={post.title} />
-                <p style={{ fontSize: "14px", marginTop: "12px" }}>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    marginTop: "12px",
+                    marginLeft: "3px",
+                  }}
+                >
                   {post.title}
                 </p>
                 <PriceRow>
                   <p
-                    style={{ fontSize: "25px", fontWeight: "bold", margin: 0 }}
+                    style={{ fontSize: "24px", fontWeight: "bold", margin: 0 }}
                   >
                     {post.price}
                   </p>
@@ -81,7 +87,15 @@ const Mainboard = () => {
                   <GradeBox>{post.grade}</GradeBox>
                 </PriceRow>
 
-                <p>{post.weight}</p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: "bold",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {post.weight}
+                </p>
               </Post>
             ))}
           </Grid>
@@ -145,15 +159,15 @@ const PriceRow = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-top: 5px;
 `;
 
 const GradeBox = styled.div`
   background-color: #f8f4d9;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #94917c;
   border-radius: 20px;
-  padding: 4px 12px;
-  padding: 3px 8px; /* ↓ 여백도 줄임 */
+  padding: 3px 10px; /* ↓ 여백도 줄임 */
   white-space: nowrap;
 `;
