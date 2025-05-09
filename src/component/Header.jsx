@@ -1,19 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <MainFrame>
         <Title>잔반</Title>
         <NavigatorContainer>
           <Navigator>비료 거래</Navigator>
-
           <Navigator>발효 등급표</Navigator>
           <Navigator>비료 만들기</Navigator>
+          <Navigator>발효 꿀팁</Navigator>
         </NavigatorContainer>
 
-        <Write>내 비료 팔기</Write>
+        <Write onClick={() => navigate("/newpost")}>내 비료 팔기</Write>
       </MainFrame>
     </>
   );
@@ -24,7 +27,7 @@ export default Header;
 const MainFrame = styled.div`
   position: fixed;
   width: 100%;
-  height: 80px;
+  height: 110px;
   top: 0;
   border-bottom: 1px solid #f2f2f2;
   background-color: #ffffff;
@@ -35,7 +38,7 @@ const MainFrame = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   margin-left: 50px;
 `;
@@ -43,11 +46,11 @@ const Title = styled.div`
 const NavigatorContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 20px;
+  margin-right: 40px;
 `;
 
 const Navigator = styled.div`
-  font-size: 18px;
+  font-size: 21px;
   font-weight: bold;
   cursor: pointer;
   margin: 0 30px;

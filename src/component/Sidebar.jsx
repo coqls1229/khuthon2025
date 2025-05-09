@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   return (
     <SubFrame>
-      <div style={{ marginTop: "50px" }}>
+      <div style={{ marginTop: "80px" }}>
         <Title>현재 판매 중인 비료</Title>
         <div
           style={{
@@ -39,7 +39,7 @@ const Sidebar = () => {
           <p
             style={{
               marginRight: "40px",
-              fontSize: "12px",
+              fontSize: "14px",
               color: "#CCCCCC",
               textDecoration: "underline",
               cursor: "pointer",
@@ -95,7 +95,7 @@ const SubFrame = styled.div`
   top: 0;
   padding-left: 50px;
   height: 120vh;
-  width: 300px;
+  width: 380px;
   overflow-y: auto;
   border-right: 1px solid #e8e8e8;
 `;

@@ -115,11 +115,12 @@ const ContentRow = styled.div`
 
 const Grid = styled.div`
   flex: 1;
-  background-color: #f0f0f0; /* 일시적으로 배경색 넣어보면 어디에 있는지 확인 가능 */
+  // background-color: #f0f0f0;
   display: grid;
   grid-template-columns: repeat(4, 200px);
   justify-content: center;
-  gap: 100px;
+  column-gap: 70px;
+  row-gap: 50px;
 `;
 
 const Post = styled.div`
@@ -127,7 +128,7 @@ const Post = styled.div`
   height: auto;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 2px 4px rgba(57, 52, 52, 0.1);
   cursor: pointer;
   padding: 10px;
   display: flex;
